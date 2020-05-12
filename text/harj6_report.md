@@ -110,6 +110,35 @@ Onnistunut tila:
 
 ![scrshot9](../images/scrshot009.png)
 
+Huomasin myös, että tilan määrittelyssä olin unohtanut kohdasta '/tmp/test' lopun '.txt':n pois. Törmäsin tähän, kun yritin ajaa herra-koneelta seuraavaa komentoa:
+
+	master $ sudo salt '*' cmd.run 'cat /tmp/test.txt'
+
+Kokeilin seuraavaksi jättää '.txt':n pois edellisen komennon lopusta ja salt palautti onnistuneesti molemmilta koneilta haluamani viestin:
+
+![scrshot10](../images/scrshot010.png)
+
+Seuraavaksi loin kaksi uutta tiedostoa _redhat_ ja _debian_ ja muokkasin _init.sls_-tiedoa niin, että grainsin avulla katsottaisiin, mikä käyttöjärjestelmä orja-koneilla on ja tämän mukaan viedään joko _redhat_ tai _debian_ **/tmp/**-kansioon. Ajoin tilat puoliksi onnistuneesti. Olin unohtanut ottaa _test.txt_-tiedoston viennin pois:
+
+![scrshot11](../images/scrshot011.png)
+
+Kuitenkin _redhat_- ja _debian_-tiedostojen vienti näyttää onnistuneen. Seuraavaksi ajoin herra-koneella komennnon
+
+	master $ sudo salt '*' cmd.run 'ls /tmp/'
+
+tarkistaakseni, oliko tiedostot menneet. Ne olivat!
+
+![scrshot12](../images/scrshot012.png)
+
+Ajoin seuraavaksi komennot
+
+	master $ sudo salt 'e009' cmd.run 'cat /tmp/debian'
+	master $ sudo salt 'cElmo001' cmd.run 'cat /tmp/redhat'
+
+ja molemmat palauttivat oikeat arvot!
+
+![scrshot13](../images/scrshot013.png)
+
 
 ## Lähteet
 
