@@ -88,6 +88,27 @@ Seuraavaksi otin SSH:yhteyden molempiin koneisiin katsoakseni, olisiko **motd** 
 
 Molemmat motd:it ovat päivittyneet ja niissä on kaikki tarvittava! CentOS palauttaa motd:in jälkeen vielä jonkin oman motd-lisukkeensa. Löysin pienen etsiskelyn jälkeen CentOS-koneella tiedoston _inactive.motd_ kansiosta **/usr/share/cockpit/motd/**. En tämän tarkemmin jaksanut ruveta selvittämään kyseisen koneen automaattisen motd:in luontia, joten päätin jättää tehtävän tähän.
 
+## Harjoituksen kohta 'd'
+
+Harjoituksen kohdan 'd' idea olisi luoda eri koneiden **/tmp/**-kansioon eri tiedosto riippuen siitä, mitä grains antaa orja-koneiden käyttöjärjestelmästä. Loin aluksi uuden kansion **/srv/salt/tmpTemplate** tilaa varten. Loin _init.sls_-tiedoston, joka aluksi veisi kaikkien koneiden **/tmp/**-kansioon tiedoston _test.txt_.
+
+_init.sls_:
+
+	/tmp/test:
+	  file.managed:
+	  - source:salt://tmpTemplate/test.txt
+
+_test.txt_-tiedostossa lukee tällä hetkellä vain 'This is a test'. Ajoin tilan aktiiviseksi, ja sain virheilmoituksen. Kyse oli kirjoitusvirheestä; 'source:' ja 'salt://...' välissä ei ollut välilyöntiä. Korjasin tämän ja ajoin tilan uudestaan onnistuneesti.
+
+	master $ sudo salt '*' state.apply tmpTemplate
+
+Aikaisempi virheilmoitus:
+
+![scrshot8](../images/scrshot008.png)
+
+Onnistunut tila:
+
+![scrshot9](../images/scrshot009.png)
 
 
 ## Lähteet
