@@ -19,7 +19,7 @@ Asensin tämän jälkeen salt-minionin CentOS-koneelle [tämän ohjeen mukaan](h
 Tyhjensin CentOS-koneelle salt-minionin asennuksessa luodun _minion_-tiedoston, kirjoitin sinne herra-koneen IP:n, sekä koneelle tunnuksen **cElmo001**.
 
 	cElmo001 # cd /etc/salt/
-	echo "" | tee minion
+	cElmo001 # echo "" | tee minion
 
 _minion_-tiedoston sisältö:
 
