@@ -30,7 +30,15 @@ Hyväksyin cElmo001:n herra-koneella komennolla
 
 	master $ sudo salt-key -A
 
+![scrshot2](../images/scrshot002.png)
 
+Seuraavaksi testasin saltin kautta, onko minulla oikeasti yhteys molempiin asentamiini koneisiin tällä hetkellä:
+
+	master $ sudo salt '*' cmd.run 'whoami'
+
+Ja molemmat kertoivat olevansa root!
+
+![scrshot3](../images/scrshot003.png)
 
 ## Lähteet
 
