@@ -282,6 +282,9 @@ Tero Karvinen: http://terokarvinen.com/2020/configuration-managment-systems-palv
 
 If Not True Then False: https://www.if-not-true-then-false.com/2010/install-virtualbox-guest-additions-on-fedora-centos-red-hat-rhel/
 
-Linuxconfig.org: https://linuxconfig.org/redhat-8-open-http-port-80-and-https-port-443-with-firewalld
+Linuxconfig.org: https://linuxconfig.org/redhat-8-open-http-port-80-and-https-port-443-with-firewalld, https://linuxconfig.org/virtualbox-install-guest-additions-on-redhat-8
 
 Linuxise: https://linuxize.com/post/how-to-configure-and-manage-firewall-on-centos-8/
+
+SaltStack: https://docs.saltstack.com/en/latest/topics/jinja/index.html, https://docs.saltstack.com/en/latest/ref/states/all/salt.states.pkg.html
+
