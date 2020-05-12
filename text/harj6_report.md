@@ -256,9 +256,28 @@ Onnistuneesti ajettu tila, tässä CentOS-kone. Xubuntu-kone antoi samanlaisen r
 
 ![scrshot19](../images/scrshot019.png)
 
+Seuraavaksi tein pienet muutoksit molempiin konffaus-tiedostoihin. _apache2.conf_:iin muutin 'timeout':in arvon 300:sta 30:een. _httpd.conf_:iin vaihdoin portin 80:stä 3001:een. Ajoin tilan onnistuneesti ja molempia demoneita potkittiin!
+
+Xubuntu-kone:
+
+![scrshot20](../images/scrshot020.png)
+
+CentOS-kone:
+
+![scrshot21](../images/scrshot021.png)
+
+Testasin, että näkyisikö vakiosivut vielä molemmilla koneilla, jos laittaisin selaimeen koneiden IP:n. Xubuntu-koneen sivu näkyi, mutta CentOS:in ei, vaikka kokeilin myös spesifisti porttiin 3001. Arvelin, että kyseessä olisi palomuuri ja näin olikin loppujen lopuksi. Kävin SSH:lla CentOS-koneella avaamassa portin 3001. [Tästä artikkelista](https://linuxize.com/post/how-to-configure-and-manage-firewall-on-centos-8/) oli paljon apua palomuurin säätämisessä.
+
+Avattuani portin ja käynnistettyäni palomuurin uudelleen sivu näkyi niinkuin piti!
+
+Portti auki, ja molemmat sivut näkyy!
+
+![scrshot22](../images/scrshot022.png)
 
 ## Lähteet
 
 If Not True Then False: https://www.if-not-true-then-false.com/2010/install-virtualbox-guest-additions-on-fedora-centos-red-hat-rhel/
 
 Linuxconfig.org: https://linuxconfig.org/redhat-8-open-http-port-80-and-https-port-443-with-firewalld
+
+Linuxise: https://linuxize.com/post/how-to-configure-and-manage-firewall-on-centos-8/
