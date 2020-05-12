@@ -186,11 +186,11 @@ Seuraavaksi jouduin vähän kikkailemaan. Ubuntulle asentunut Apache näyttää 
 
 Löysin samalla SSH-reissulla CentOS-koneelta **http**-palvelun conf-tiedoston _httpd.conf_ kansiosta **/etc/httpd/conf/**. Sain helposti kopioitua tiedoston herra-koneelle **scp**:n avulla!
 
-	sudo scp -p elmo@192.168.1.115:/etc/httpd/conf/httpd.conf httpd.conf
+	master $ sudo scp -p elmo@192.168.1.115:/etc/httpd/conf/httpd.conf httpd.conf
 
 Hain seuraavaksi Ubuntu-koneelta apache2:n konffaus tiedoston komennolla
 
-	sudo scp -p elmo@192.168.1.112:/etc/apache2/apache2.conf apache2.conf
+	master $ sudo scp -p elmo@192.168.1.112:/etc/apache2/apache2.conf apache2.conf
 
 Seuraavaksi lisäsin *file.managed*:in salt-tilaan ja yritin viedä nämä conf-tiedostot oikeille paikoillee sen mukaan, mitä **grains** antaisi tiedoksi. Ubuntu-koneelle homma meni nappiin, mutta olin tehnyt kirjoitusvirheen CentOS-koneen kohdalle:
 
@@ -274,7 +274,11 @@ Portti auki, ja molemmat sivut näkyy!
 
 ![scrshot22](../images/scrshot022.png)
 
+
+
 ## Lähteet
+
+Tero Karvinen: http://terokarvinen.com/2020/configuration-managment-systems-palvelinten-hallinta-ict4tn022-spring-2020/
 
 If Not True Then False: https://www.if-not-true-then-false.com/2010/install-virtualbox-guest-additions-on-fedora-centos-red-hat-rhel/
 
