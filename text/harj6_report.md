@@ -188,7 +188,73 @@ Löysin samalla SSH-reissulla CentOS-koneelta **http**-palvelun conf-tiedoston _
 
 	sudo scp -p elmo@192.168.1.115:/etc/httpd/conf/httpd.conf httpd.conf
 
+Hain seuraavaksi Ubuntu-koneelta apache2:n konffaus tiedoston komennolla
 
+	sudo scp -p elmo@192.168.1.112:/etc/apache2/apache2.conf apache2.conf
+
+Seuraavaksi lisäsin *file.managed*:in salt-tilaan ja yritin viedä nämä conf-tiedostot oikeille paikoillee sen mukaan, mitä **grains** antaisi tiedoksi. Ubuntu-koneelle homma meni nappiin, mutta olin tehnyt kirjoitusvirheen CentOS-koneen kohdalle:
+
+_init.sls_:
+
+	put_confs:
+	  file.managed:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - name: /etc/apache2/apache2.conf
+	    - source: salt://doubleApache/apache2.conf
+	    {% elif gains['os'] == 'CentOS' %}
+	    - name: /etc/httpd/conf/httpd.conf
+	    - source: salt://doubleApache/httpd.conf
+	    {% endif %}
+
+	install_apache:
+	  pkg.installed:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - name: apache2
+	    {% elif grains['os'] == 'CentOS'%}
+	    - name: httpd
+	    {% endif %}
+
+Virhe on yhdessä 'grains'-kohdassa, unohdin 'r':n. Korjasin virheen ja molemmat tilat menivät perille onnistuneesti!
+
+![scrshot17](../images/scrshot017.png)
+
+Seuraavaksi lisäsin _init.sls_-tiedostoon pätkän, joka vahtisi molempia konffi-tiedostoja ja käynnistäisi palvelut uudestaan, jos konffi-tiedostoihin tulisi muutoksia. Yritin ajaa tilan aktiiviseksi, mutta sain virheilmoituksen. Olin unohtanut määritellä, mitä palvelua tarkasteltaisiin.
+
+_init.sls_:ssä uusi kohta:
+
+	kick_the_http:
+	  service.running:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - watch:
+	      - file: /etc/apache2/apache2.conf
+	    {% elif grains['os'] == 'CentOS' %}
+	    - watch:
+	      - file: /etc/httpd/conf/httpd.conf
+	    {% endif %}
+
+Epäonnistunut yritys:
+
+![scrshot18](../images/scrshot018.png)
+
+Lisäsin ennen kutakin 'watch':ia kohdan 'name', jolla kerrottaisin, mitä demonia tarkkaillaan. Ajoin tämän jälkeen tilan onnistuneesti!
+
+_init.sls_:n korjattu 'kick_the_http':
+
+	kick_the_http:
+	  service.running:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - name: apache2
+	    - watch:
+	      - file: /etc/apache2/apache2.conf
+	    {% elif grains['os'] == 'CentOS' %}
+	    - name: httpd
+	    - watch:
+	      - file: /etc/httpd/conf/httpd.conf
+	    {% endif %}
+
+Onnistuneesti ajettu tila, tässä CentOS-kone. Xubuntu-kone antoi samanlaisen raportin:
+
+![scrshot19](../images/scrshot019.png)
 
 
 ## Lähteet
