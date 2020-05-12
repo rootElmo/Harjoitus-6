@@ -120,6 +120,25 @@ Kokeilin seuraavaksi jättää '.txt':n pois edellisen komennon lopusta ja salt 
 
 Seuraavaksi loin kaksi uutta tiedostoa _redhat_ ja _debian_ ja muokkasin _init.sls_-tiedoa niin, että grainsin avulla katsottaisiin, mikä käyttöjärjestelmä orja-koneilla on ja tämän mukaan viedään joko _redhat_ tai _debian_ **/tmp/**-kansioon. Ajoin tilat puoliksi onnistuneesti. Olin unohtanut ottaa _test.txt_-tiedoston viennin pois:
 
+_init.sls_:
+
+	/tmp/test:
+	  file.managed:
+	    - source: salt://tmpTemplate/test.txt
+
+	ospoker:
+	  file.managed:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - name: /tmp/debian
+	    - source: salt://tmpTemplate/debian
+	    {% elif grains['os'] == 'CentOS'%}
+	    - name: /tmp/redhat
+	    - source: salt://tmpTemplate/redhat
+	    {% endif %}
+
+
+Tilan ajo:
+
 ![scrshot11](../images/scrshot011.png)
 
 Kuitenkin _redhat_- ja _debian_-tiedostojen vienti näyttää onnistuneen. Seuraavaksi ajoin herra-koneella komennnon
@@ -135,10 +154,31 @@ Ajoin seuraavaksi komennot
 	master $ sudo salt 'e009' cmd.run 'cat /tmp/debian'
 	master $ sudo salt 'cElmo001' cmd.run 'cat /tmp/redhat'
 
-ja molemmat palauttivat oikeat arvot!
+ja molemmat palauttivat oikeat arvot! Poistin tämän jälkeen _init.sls_-tiedostosta alussa luomani '/tmp/test':in.
 
 ![scrshot13](../images/scrshot013.png)
 
+## Apache useammalla levityspaketilla
+
+Seuraavan harjoituksen tarkoitus olisi asentaa ja konffata kahdella eri levityspakeitlla 'Apache'. Loin tilaa varten kansion **/srv/salt/doubleApache** ja sinne _init.sls_-tiedoston. Voisin muottien avulla kertoa tilassa minkä paketin haluan asentaa, ilman, että luon kahta tilaa erikseen. Katsoitin **grainsilla** koneen käyttöjärjestelmän ja riippuen siitä asentaisin kullekkin sopivan Apachen.
+
+_init.sls_:
+
+	install_apache:
+	  pkg.installed:
+	    {% if grains['os'] == 'Ubuntu' %}
+	    - name: apache2
+	    {% elif grains['os'] == 'CentOS'%}
+	    - name: httpd
+	    {% endif %}
+
+Ajoin tilan aktiiviseksi onnistuneesti komennolla
+
+	master $ sudo salt '*' state.apply doubleApache
+
+![scrshot14](../images/scrshot014.png)
+
+![scrshot15](../images/scrshot015.png)
 
 ## Lähteet
 
