@@ -68,7 +68,7 @@ Ajoin tilan aktiiviseksi kaikille orja-koneille:
 
 	master $ sudo salt '*' state.apply motdTemp
 
-Tila ajoi itsensä loppuun onnistuneesti molemmilla koneilla! Viesteistä näkyy myös, että Ubuntu-koneella **'e009'** vakio motd-kansio tyhejnnettiin ja CentOS-koneella **cElmo001** luotiin vain _motd_-tiedosto kansioon **/etc/**
+Tila ajoi itsensä loppuun onnistuneesti molemmilla koneilla! Viesteistä näkyy myös, että Ubuntu-koneella **'e009'** vakio motd-kansio tyhejnnettiin ja CentOS-koneella **cElmo001** muokattiin jo olemassaolevaa tyhjää _motd_-tiedostoa kansiossa **/etc/**
 
 **e009**:
 
@@ -78,6 +78,16 @@ Tila ajoi itsensä loppuun onnistuneesti molemmilla koneilla! Viesteistä näkyy
 **cElmo001**:
 
 ![scrshot6](../images/scrshot006.png)
+
+
+Seuraavaksi otin SSH:yhteyden molempiin koneisiin katsoakseni, olisiko **motd** päivittynyt oikein. Itse _motd_-tiedostossa pitäisi myös näkyä koneen ID, sekä käyttöjärjestelmä ja sen versio. Selvitin molempien koneiden IP-osoitteet helposti komennolla
+
+	master $ sudo salt '*' cmd.run 'hostname -I'
+
+![scrshot7](../images/scrshot007.png)
+
+Molemmat motd:it ovat päivittyneet ja niissä on kaikki tarvittava! CentOS palauttaa motd:in jälkeen vielä jonkin oman motd-lisukkeensa. Löysin pienen etsiskelyn jälkeen CentOS-koneella tiedoston _inactive.motd_ kansiosta **/usr/share/cockpit/motd/**. En tämän tarkemmin jaksanut ruveta selvittämään kyseisen koneen automaattisen motd:in luontia, joten päätin jättää tehtävän tähän.
+
 
 
 ## Lähteet
