@@ -180,6 +180,19 @@ Ajoin tilan aktiiviseksi onnistuneesti komennolla
 
 ![scrshot15](../images/scrshot015.png)
 
+Seuraavaksi jouduin vähän kikkailemaan. Ubuntulle asentunut Apache näyttää valmista _index.html_-sivua omasta portistaan, mutta näin ei ollut CentOS-koneen kohdalla. Arvelin, että kyse on palomuurista. Ja näin olikin. [Tämän artikkelin](https://linuxconfig.org/redhat-8-open-http-port-80-and-https-port-443-with-firewalld) avulla sain avattua **http**-palvelulle portin ja nyt esimerkkisivu näkyy CentOS-koneen IP-osoitteessa!
+
+![scrshot16](../images/scrshot016.png)
+
+Löysin samalla SSH-reissulla CentOS-koneelta **http**-palvelun conf-tiedoston _httpd.conf_ kansiosta **/etc/httpd/conf/**. Sain helposti kopioitua tiedoston herra-koneelle **scp**:n avulla!
+
+	sudo scp -p elmo@192.168.1.115:/etc/httpd/conf/httpd.conf httpd.conf
+
+
+
+
 ## Lähteet
 
 If Not True Then False: https://www.if-not-true-then-false.com/2010/install-virtualbox-guest-additions-on-fedora-centos-red-hat-rhel/
+
+Linuxconfig.org: https://linuxconfig.org/redhat-8-open-http-port-80-and-https-port-443-with-firewalld
